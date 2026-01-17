@@ -5,17 +5,24 @@
 #ifndef DINING_PHILOSOPHERS_SRC_PHILOSOPHER_INCLUDE_PHILOSOPHER_PHILOSOPHER_HPP_
 #define DINING_PHILOSOPHERS_SRC_PHILOSOPHER_INCLUDE_PHILOSOPHER_PHILOSOPHER_HPP_
 
-#include <dining_philosophers_entities/Fork.hpp>
+#include <core/Fork.hpp>
 #include <memory>
 
-namespace dining_philosophers_entities {
+namespace core {
 
 class Philosopher {
  private:
-  std::shared_ptr<Fork> leftFork;
-  std::shared_ptr<Fork> rightFork;
+  uint32_t id;
+
+  std::shared_ptr<Fork> left_fork_;
+  std::shared_ptr<Fork> right_fork_;
+
+  void eat();
+  void think() const;
 
  public:
+  Philosopher(uint32_t id, std::shared_ptr<Fork> left_fork, std::shared_ptr<Fork> right_fork);
+
   void run();
 
 };
