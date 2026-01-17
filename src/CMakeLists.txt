@@ -4,3 +4,8 @@ project(dining_philosophers)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(dining_philosophers main.cpp)
+add_subdirectory(dining_philosophers_entities)
+
+target_link_libraries(dining_philosophers
+    dining_philosophers_entities
+)
