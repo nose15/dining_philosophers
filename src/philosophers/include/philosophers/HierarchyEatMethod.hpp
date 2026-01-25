@@ -14,7 +14,7 @@ namespace philosophers {
 class HierarchyEatMethod final : public IEatMethod {
   public:
     ~HierarchyEatMethod() override = default;
-    void operator()(const shared_resources::Fork& left_fork, const shared_resources::Fork& right_fork) override;
+    void operator()(const shared_resources::Fork& left_fork, const shared_resources::Fork& right_fork, std::atomic<State>& state) override;
 };
 
 }

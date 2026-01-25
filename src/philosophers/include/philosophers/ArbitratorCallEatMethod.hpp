@@ -19,7 +19,7 @@ class ArbitratorCallEatMethod final : public IEatMethod {
     explicit ArbitratorCallEatMethod(
       const shared_resources::ForkArbitrator& fork_arbitrator);
     ~ArbitratorCallEatMethod() override = default;
-    void operator()(const shared_resources::Fork& left_fork, const shared_resources::Fork& right_fork) override;
+    void operator()(const shared_resources::Fork& left_fork, const shared_resources::Fork& right_fork, std::atomic<State>& state) override;
 };
 
 }

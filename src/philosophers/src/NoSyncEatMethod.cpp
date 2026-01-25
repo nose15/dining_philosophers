@@ -11,13 +11,15 @@
 
 namespace philosophers {
 
-void NoSyncEatMethod::operator()(const shared_resources::Fork &left_fork, const shared_resources::Fork &right_fork) {
+void NoSyncEatMethod::operator()(const shared_resources::Fork &left_fork, const shared_resources::Fork &right_fork, std::atomic<State>& state) {
   thread_local std::mt19937 gen(std::random_device{}());
     std::uniform_int_distribution<uint64_t> micro_dist(0, 10);
 
   left_fork.mutex_.lock();
-  std::this_thread::sleep_for(std::chrono::microseconds(10));
+  std::this_thread::yield();
   right_fork.mutex_.lock();
+
+  state = Eating;
 
   const auto dur = std::chrono::milliseconds(1) + std::chrono::microseconds(micro_dist(gen));
   std::this_thread::sleep_for(dur);

@@ -13,13 +13,14 @@
 #include <random>
 #include <vector>
 
-#include "NoSyncEatMethod.hpp"
+#include <philosophers/State.hpp>
 
 namespace philosophers {
 
 class Philosopher {
   private:
-    uint32_t id;
+    const uint32_t id;
+
     mutable std::mt19937 gen;
 
     const shared_resources::Fork& left_fork_;
@@ -31,6 +32,8 @@ class Philosopher {
     void think() const;
 
   public:
+    mutable std::atomic<State> state;
+
     Philosopher(
       uint32_t id,
       std::shared_ptr<IEatMethod> eat_method,

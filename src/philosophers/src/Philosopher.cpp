@@ -24,15 +24,14 @@ void Philosopher::run() const {
 }
 
 void Philosopher::eat() const {
-  std::osyncstream(std::cout) << id << " is trying to eat" << std::endl;;
-  (*eat_method_)(left_fork_, right_fork_);
-  std::osyncstream(std::cout) << id << " finished eating" << std::endl;;
+  state = Hungry;
+  (*eat_method_)(left_fork_, right_fork_, state);
 }
 
 void Philosopher::think() const {
+  state = Thinking;
   std::uniform_int_distribution<uint64_t> dist(90, 110);
   const auto dur = std::chrono::microseconds(dist(gen));
-  std::osyncstream(std::cout) << id << " is thinking for " << dur.count() << std::endl;
 
   std::this_thread::sleep_for(dur);
 }

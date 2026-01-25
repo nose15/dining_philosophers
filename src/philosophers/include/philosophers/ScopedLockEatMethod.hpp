@@ -14,7 +14,7 @@ namespace philosophers {
 class ScopedLockEatMethod final : public IEatMethod {
   public:
     ~ScopedLockEatMethod() override = default;
-    void operator()(const shared_resources::Fork& left_fork, const shared_resources::Fork& right_fork) override;
+    void operator()(const shared_resources::Fork& left_fork, const shared_resources::Fork& right_fork, std::atomic<State>& state) override;
 };
 
 }

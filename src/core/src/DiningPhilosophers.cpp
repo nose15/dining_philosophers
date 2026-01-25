@@ -9,9 +9,12 @@
 #include <vector>
 #include <thread>
 #include <memory>
+#include <syncstream>
+#include <iostream>
 
-#include "philosophers/ArbitratorCallEatMethod.hpp"
-#include "philosophers/ScopedLockEatMethod.hpp"
+#include <philosophers/ArbitratorCallEatMethod.hpp>
+#include <philosophers/NoSyncEatMethod.hpp>
+#include <philosophers/ScopedLockEatMethod.hpp>
 
 void core::DiningPhilosophers::initializeForks(const uint32_t count) {
   forks.reserve(count);
@@ -21,7 +24,7 @@ void core::DiningPhilosophers::initializeForks(const uint32_t count) {
   }
 }
 
-core::DiningPhilosophers::DiningPhilosophers(uint32_t philosopher_count) {
+core::DiningPhilosophers::DiningPhilosophers(const uint32_t philosopher_count) {
   initializeForks(philosopher_count);
 
   philosopher_count_ = philosopher_count;
@@ -33,8 +36,8 @@ void core::DiningPhilosophers::run() const {
   threads.reserve(philosopher_count_);
   philosophers.reserve(philosopher_count_);
 
-  auto eat_method = std::make_shared<philosophers::ScopedLockEatMethod>();
   shared_resources::ForkArbitrator fork_arbitrator{};
+  auto eat_method = std::make_shared<philosophers::ArbitratorCallEatMethod>(fork_arbitrator);
 
   for (uint32_t i = 0; i < philosopher_count_; i++) {
     philosophers.push_back(std::make_shared<::philosophers::Philosopher>(
@@ -46,6 +49,27 @@ void core::DiningPhilosophers::run() const {
       philosopher->run();
     });
   }
+
+  std::thread monitoring_thread([&philosophers, &threads] {
+    while (threads.at(0).joinable()) {
+      const auto time_stamp_start = std::chrono::system_clock::now();
+      std::string output = std::to_string(time_stamp_start.time_since_epoch().count()) + " ";
+
+      for (const auto& philosopher : philosophers) {
+        output.append(std::to_string(philosopher->state) + " ");
+      }
+      const auto time_stamp_end = std::chrono::system_clock::now();
+
+      output.append(std::to_string(time_stamp_end.time_since_epoch().count()));
+
+      std::osyncstream(std::cout) << output << std::endl;
+
+      const auto time_stamp_end_sync = std::chrono::system_clock::now();
+
+      std::this_thread::sleep_for(std::chrono::milliseconds(1)
+        - std::chrono::duration_cast<std::chrono::nanoseconds>(time_stamp_end_sync - time_stamp_start));
+    }
+  });
 
   for (auto &t : threads) {
     t.join();

@@ -13,6 +13,7 @@ target_sources(philosophers
             ${CMAKE_CURRENT_SOURCE_DIR}/include/philosophers/NoSyncEatMethod.hpp
             ${CMAKE_CURRENT_SOURCE_DIR}/include/philosophers/Philosopher.hpp
             ${CMAKE_CURRENT_SOURCE_DIR}/include/philosophers/ScopedLockEatMethod.hpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/include/philosophers/State.hpp
         PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/src/ArbitratorCallEatMethod.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/src/HierarchyEatMethod.cpp
