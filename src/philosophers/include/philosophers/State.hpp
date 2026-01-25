@@ -10,7 +10,8 @@ namespace philosophers {
 enum State {
   Hungry = 0,
   Eating = 1,
-  Thinking = 2
+  Thinking = 2,
+  Done = 3
 };
 
 }

@@ -19,10 +19,12 @@ Philosopher::Philosopher(const uint32_t id, std::shared_ptr<IEatMethod> eat_meth
 }
 
 void Philosopher::run() const {
-  for (uint64_t i = 0; i < INT64_MAX; i++) {
+  for (uint64_t i = 0; i < DF_ITERATIONS; i++) {
     think();
     eat();
   }
+
+  state = Done;
 }
 
 void Philosopher::eat() const {
@@ -32,7 +34,7 @@ void Philosopher::eat() const {
 
 void Philosopher::think() const {
   state = Thinking;
-  std::uniform_int_distribution<uint64_t> dist(THINKING_TIME_US - THINKING_TIME_DEV_US, THINKING_TIME_US + THINKING_TIME_DEV_US);
+  std::uniform_int_distribution<uint64_t> dist(DF_THINKING_TIME_US - DF_THINKING_TIME_DEV_US, DF_THINKING_TIME_US + DF_THINKING_TIME_DEV_US);
   const auto dur = std::chrono::microseconds(dist(gen));
 
   std::this_thread::sleep_for(dur);

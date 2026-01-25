@@ -8,9 +8,10 @@
 // This is a temporary solution
 // TODO: The config should be read from env variables and ran in docker
 
-#define EATING_TIME_MS 1
-#define MAX_EATING_TIME_DEV_US 10
-#define THINKING_TIME_US 100
-#define THINKING_TIME_DEV_US 10
+#define DF_EATING_TIME_US 20
+#define DF_MAX_EATING_TIME_DEV_NS 20
+#define DF_THINKING_TIME_US 20
+#define DF_THINKING_TIME_DEV_US 2
+#define DF_ITERATIONS 10000
 
 #endif //CONFIG_HPP
