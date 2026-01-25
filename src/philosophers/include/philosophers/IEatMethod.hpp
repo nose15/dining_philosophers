@@ -7,7 +7,9 @@
 
 #include <shared_resources/Fork.hpp>
 
-#include "State.hpp"
+#include <philosophers/State.hpp>
+
+#include <philosophers/config.hpp>
 
 namespace philosophers {
   class IEatMethod {

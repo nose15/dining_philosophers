@@ -7,6 +7,8 @@
 
 #include <philosophers/Philosopher.hpp>
 
+#include <philosophers/config.hpp>
+
 #include <thread>
 #include <utility>
 
@@ -30,7 +32,7 @@ void Philosopher::eat() const {
 
 void Philosopher::think() const {
   state = Thinking;
-  std::uniform_int_distribution<uint64_t> dist(90, 110);
+  std::uniform_int_distribution<uint64_t> dist(THINKING_TIME_US - THINKING_TIME_DEV_US, THINKING_TIME_US + THINKING_TIME_DEV_US);
   const auto dur = std::chrono::microseconds(dist(gen));
 
   std::this_thread::sleep_for(dur);

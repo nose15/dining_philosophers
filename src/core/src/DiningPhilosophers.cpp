@@ -36,6 +36,7 @@ void core::DiningPhilosophers::run() const {
   threads.reserve(philosopher_count_);
   philosophers.reserve(philosopher_count_);
 
+  // TODO: create a factory for EatCallMethod
   shared_resources::ForkArbitrator fork_arbitrator{};
   auto eat_method = std::make_shared<philosophers::ArbitratorCallEatMethod>(fork_arbitrator);
 
@@ -50,6 +51,7 @@ void core::DiningPhilosophers::run() const {
     });
   }
 
+  // TODO: create a monitor class that also analyses results
   std::thread monitoring_thread([&philosophers, &threads] {
     while (threads.at(0).joinable()) {
       const auto time_stamp_start = std::chrono::system_clock::now();
