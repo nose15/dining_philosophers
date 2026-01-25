@@ -1,6 +1,8 @@
 #include <core/DiningPhilosophers.hpp>
 
+#include "philosophers/NoSyncEatMethod.hpp"
+
 int main() {
-  auto dining_philosophers = core::DiningPhilosophers(10);
+  const auto dining_philosophers = core::DiningPhilosophers(10);
   dining_philosophers.run();
 }

@@ -5,12 +5,18 @@
 #ifndef DINING_PHILOSOPHERS_SRC_CORE_INCLUDE_CORE_FORK_HPP_
 #define DINING_PHILOSOPHERS_SRC_CORE_INCLUDE_CORE_FORK_HPP_
 
+#include <atomic>
 #include <mutex>
 
-namespace core {
+namespace shared_resources {
 
 class Fork {
  public:
+  Fork() = default;
+  Fork(const Fork& other);
+  Fork(Fork&&) noexcept;
+  explicit Fork(uint32_t id);
+  std::atomic<uint32_t> id_;
   mutable std::mutex mutex_;
 };
 
